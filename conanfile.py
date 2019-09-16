@@ -44,6 +44,7 @@ class FreeImageConan(ConanFile):
             self.copy("*.h", dst="include", src=src, keep_path=False)
         else:
             autotools = AutoToolsBuildEnvironment(self)
+            env_build_vars = autotools.vars
             autotools.install(vars=env_build_vars)
 
             with tools.environment_append(autotools.vars):
