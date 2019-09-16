@@ -1,3 +1,14 @@
+env:
+    global: 
+      -  CONAN_STABLE_BRANCH_PATTERN: "stable/*"
+      -  CONAN_UPLOAD: http://cytosplore.lumc.nl:8081/artifactory/api/conan/conan-local
+      -  CONAN_USERNAME: "lkeb" # name used for package reference
+      -  CONAN_CHANNEL: "stable" # channel used for package naming 
+      -  CONAN_LOGIN_USERNAME: "admin"
+      -  CONAN_PASSWORD: $CONAN_PASSWORD_SECRET  
+      -  CONAN_STABLE_BRANCH_PATTERN: "master"
+      -  CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
+      
 linux: &linux
    os: linux
    dist: xenial

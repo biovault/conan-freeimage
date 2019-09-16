@@ -43,6 +43,9 @@ class FreeImageConan(ConanFile):
             autotools = AutoToolsBuildEnvironment(self)
             env_build_vars = autotools.vars
             env_build_vars['DESTDIR'] = self.package_folder
+            env_build_vars["INCDIR"] = path.join(self.package_folder, "include")
+            env_build_vars["INSTALLDIR"] = path.join(self.package_folder, "lib")
+            autotools.make(target="-f Makefile.fip", vars=self.env_build_vars)
             autotools.install(vars=env_build_vars)
 
             with tools.environment_append(autotools.vars):
