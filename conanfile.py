@@ -43,6 +43,7 @@ class FreeImageConan(ConanFile):
             self.copy("*.dll", dst="bin", src=src, keep_path=False)
             self.copy("*.h", dst="include", src=src, keep_path=False)
         else:
+            autotools = AutoToolsBuildEnvironment(self)
             autotools.install(vars=env_build_vars)
 
             with tools.environment_append(autotools.vars):
