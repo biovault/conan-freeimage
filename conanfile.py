@@ -29,7 +29,7 @@ class FreeImageConan(ConanFile):
             env_build_vars['DESTDIR'] = self.package_folder
             env_build_vars["INCDIR"] = os.path.join(self.package_folder, "include")
             env_build_vars["INSTALLDIR"] = os.path.join(self.package_folder, "lib")
-            autotools.make(target="-f Makefile.fip", vars=self.env_build_vars)
+            autotools.make(target="-f Makefile.fip", vars=env_build_vars)
         
     def package(self):
         if self.settings.os_build == "Windows":
