@@ -6,7 +6,7 @@ from conans import AutoToolsBuildEnvironment
 
 class FreeImageConan(ConanFile):
     name = "freeimage"
-    version = "3.18"
+    version = "3.18.0"
     description = "FreeImage for Windows, pre-built binaries are supplied"
     license = "FIPL"
     settings = "os_build", "compiler", "build_type", "arch_build"
@@ -29,7 +29,7 @@ class FreeImageConan(ConanFile):
             env_build_vars['DESTDIR'] = self.package_folder
             env_build_vars["INCDIR"] = os.path.join(self.package_folder, "include")
             env_build_vars["INSTALLDIR"] = os.path.join(self.package_folder, "lib")
-            with tools.chdir(os.path.join(self.build_subfolder, "FreeImage")): 
+            with tools.chdir("FreeImage"): 
                 autotools.make(target="-f Makefile.fip", vars=env_build_vars)
         
     def package(self):
