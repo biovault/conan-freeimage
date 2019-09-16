@@ -23,7 +23,7 @@ class FreeImageConan(ConanFile):
             
     def build(self):
         if self.settings.os_build == "Windows":
-            tools.get("http://downloads.sourceforge.net/freeimage/FreeImage3180Win32Win64.zip"
+            tools.get("http://downloads.sourceforge.net/freeimage/FreeImage3180Win32Win64.zip")
         else:
             autotools = AutoToolsBuildEnvironment(self)
             env_build_vars = autotools.vars
