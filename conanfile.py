@@ -13,8 +13,7 @@ class FreeImageConan(ConanFile):
     url = "https://github.com/bldrvnlw/conan-freeimage"
 
     def configure(self):
-        if self.settings.os_build != "Windows":
-            raise Exception("Only Windows is supported by this recipe")
+        pass
 
     def source(self): 
         if self.settings.os_build != "Windows":
