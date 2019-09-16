@@ -43,14 +43,11 @@ class FreeImageConan(ConanFile):
             self.copy("*.dll", dst="bin", src=src, keep_path=False)
             self.copy("*.h", dst="include", src=src, keep_path=False)
         else:
-            autotools = AutoToolsBuildEnvironment(self)
-            env_build_vars = autotools.vars
-            autotools.install(vars=env_build_vars)
-
-            with tools.environment_append(autotools.vars):
-                self.run(
-                    "mv {}/usr/* {}/".format(self.package_folder, self.package_folder))
-                self.run("rm -rf {}/usr".format(self.package_folder))
+            with tools.chdir("FreeImage"): 
+                src = ("./Dist")
+                self.copy("*.a", dst="lib", src=src, keep_path=False)
+                self.copy("*.so", dst="bin", src=src, keep_path=False)
+                self.copy("*.h", dst="include", src=src, keep_path=False)
         
 
     def package_info(self):
