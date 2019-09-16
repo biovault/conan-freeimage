@@ -31,7 +31,7 @@ class FreeImageConan(ConanFile):
             autotools.make(vars=env_build_vars)
         
     def package(self):
-        if self.settings.os_build = "Windows":
+        if self.settings.os_build == "Windows":
             if self.settings.arch_build == "x86_64":
                 src = os.path.join(self.build_folder, "FreeImage/Dist/x64")
             elif self.settings.arch_build == "x86":
