@@ -26,6 +26,9 @@ class FreeImageConan(ConanFile):
         if self.settings.os_build == "Windows":
             tools.get("http://downloads.sourceforge.net/freeimage/FreeImage3180Win32Win64.zip")
         else:
+            autotools = AutoToolsBuildEnvironment(self)
+            # In order to set environment vars - unused in this recipe
+            env_build_vars = autotools.vars
             with tools.chdir(self._source_subfolder): 
                 # FIP : Makefile.fip is for FreeImagePlus, the C++ FreeImage wrapper
                 # make 
