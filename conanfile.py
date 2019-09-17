@@ -33,14 +33,14 @@ class FreeImageConan(ConanFile):
             with tools.chdir(self._source_subfolder): 
                 # FIP : Makefile.fip is for FreeImagePlus, the C++ FreeImage wrapper
                 # make 
-                if self.settings.os == "Macos":
+                if self.settings.os_build == "Macos":
                     autotools.make(target="-f Makefile.osx", vars=env_build_vars)
                 else:
-                    autotools.make(target="-f Makefile.fip", vars=env_build_vars)
+                    autotools.make(target="-f Makefile.gnu", vars=env_build_vars)
                 print("Cur dir: ", os.getcwd(), " Dist subdir: ", os.listdir("./Dist"))
                 self._dist_subfolder = os.path.join(os.getcwd(), "Dist");
                 # make install - not possible because chown fails
-                #autotools.make(target="-f Makefile.fip install", vars=env_build_vars)
+                #autotools.make(target="-f Makefile.gnu install", vars=env_build_vars)
         
     def package(self):
         if self.settings.os_build == "Windows":
