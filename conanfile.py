@@ -46,7 +46,7 @@ class FreeImageConan(ConanFile):
         else:
             with tools.chdir(self._source_subfolder):
                 self.copy("*.a", dst=os.path.join(self.package_folder, "lib"), src="Dist", keep_path=False)
-                self.copy("*.so", dst=os.path.join(self.package_folder, "bin"), src=src="Dist", keep_path=False)
+                self.copy("*.so", dst=os.path.join(self.package_folder, "bin"), src="Dist", keep_path=False)
                 self.copy("*.h", dst=os.path.join(self.package_folder, "include"), src="Dist", keep_path=False)
         
 
