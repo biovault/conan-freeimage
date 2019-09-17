@@ -13,9 +13,6 @@ class FreeImageConan(ConanFile):
     url = "https://github.com/bldrvnlw/conan-freeimage"
     _source_subfolder = "FreeImage"
     _build_subfolder = "build_subfolder"
-    _destdir = None
-    _incdir = None
-    _installdir = None
     
     def configure(self):
         pass
@@ -29,20 +26,12 @@ class FreeImageConan(ConanFile):
         if self.settings.os_build == "Windows":
             tools.get("http://downloads.sourceforge.net/freeimage/FreeImage3180Win32Win64.zip")
         else:
-            autotools = AutoToolsBuildEnvironment(self)
-            env_build_vars = autotools.vars
-            # General configuration variables for FreeImage 
-            env_build_vars['DESTDIR'] = self._build_subfolder
-            self._destdir = env_build_vars['DESTDIR']
-            env_build_vars["INCDIR"] = os.path.join(self._build_subfolder, "include")
-            self._incdir = env_build_vars["INCDIR"]
-            env_build_vars["INSTALLDIR"] = os.path.join(self._build_subfolder, "lib")
-            self._installdir = env_build_vars["INSTALLDIR"]
             with tools.chdir(self._source_subfolder): 
                 # FIP : Makefile.fip is for FreeImagePlus, the C++ FreeImage wrapper
-                # make && make install
+                # make 
                 autotools.make(target="-f Makefile.fip", vars=env_build_vars)
-                autotools.make(target="-f Makefile.fip install", vars=env_build_vars)
+                # make install - not possible because chown fails
+                #autotools.make(target="-f Makefile.fip install", vars=env_build_vars)
         
     def package(self):
         if self.settings.os_build == "Windows":
@@ -55,9 +44,10 @@ class FreeImageConan(ConanFile):
             self.copy("*.dll", dst="bin", src=src, keep_path=False)
             self.copy("*.h", dst="include", src=src, keep_path=False)
         else:
-            self.copy("*.a", dst="lib", src=self._installdir, keep_path=False)
-            self.copy("*.so", dst="bin", src=self._installdir, keep_path=False)
-            self.copy("*.h", dst="include", src=self._incdir, keep_path=False)
+            with tools.chdir(self._source_subfolder):
+                self.copy("*.a", dst=os.path.join(self.package_folder, "lib"), src="Dist", keep_path=False)
+                self.copy("*.so", dst=os.path.join(self.package_folder, "bin"), src=src="Dist", keep_path=False)
+                self.copy("*.h", dst=os.path.join(self.package_folder, "include"), src="Dist", keep_path=False)
         
 
     def package_info(self):
