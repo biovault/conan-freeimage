@@ -13,6 +13,7 @@ class FreeImageConan(ConanFile):
     url = "https://github.com/bldrvnlw/conan-freeimage"
     _source_subfolder = "FreeImage"
     _build_subfolder = "build_subfolder"
+    _dist_subfolder = None
     
     def configure(self):
         pass
@@ -33,6 +34,8 @@ class FreeImageConan(ConanFile):
                 # FIP : Makefile.fip is for FreeImagePlus, the C++ FreeImage wrapper
                 # make 
                 autotools.make(target="-f Makefile.fip", vars=env_build_vars)
+                print("Cur dir: ", os.getcwd(), " Dist subdir: ", os.listdir("./Dist"))
+                self._dist_subfolder = os.path.join(os.getcwd(), "Dist");
                 # make install - not possible because chown fails
                 #autotools.make(target="-f Makefile.fip install", vars=env_build_vars)
         
@@ -48,9 +51,9 @@ class FreeImageConan(ConanFile):
             self.copy("*.h", dst="include", src=src, keep_path=False)
         else:
             with tools.chdir(self._source_subfolder):
-                self.copy("*.a", dst=os.path.join(self.package_folder, "lib"), src="Dist", keep_path=False)
-                self.copy("*.so", dst=os.path.join(self.package_folder, "bin"), src="Dist", keep_path=False)
-                self.copy("*.h", dst=os.path.join(self.package_folder, "include"), src="Dist", keep_path=False)
+                self.copy("*.a", dst=os.path.join(self.package_folder, "lib"), src=self._dist_subfolder, keep_path=False)
+                self.copy("*.so", dst=os.path.join(self.package_folder, "bin"), src=self._dist_subfolder, keep_path=False)
+                self.copy("*.h", dst=os.path.join(self.package_folder, "include"), src=self._dist_subfolder, keep_path=False)
         
 
     def package_info(self):
