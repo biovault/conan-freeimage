@@ -11,7 +11,9 @@ class FreeImageConan(ConanFile):
     license = "FIPL"
     settings = "os_build", "compiler", "build_type", "arch_build"
     url = "https://github.com/bldrvnlw/conan-freeimage"
-
+    _source_subfolder = "FreeImage"
+    _build_subfolder = "build_subfolder"
+    
     def configure(self):
         pass
 
@@ -26,10 +28,10 @@ class FreeImageConan(ConanFile):
         else:
             autotools = AutoToolsBuildEnvironment(self)
             env_build_vars = autotools.vars
-            env_build_vars['DESTDIR'] = self.package_folder
-            env_build_vars["INCDIR"] = os.path.join(self.package_folder, "include")
-            env_build_vars["INSTALLDIR"] = os.path.join(self.package_folder, "lib")
-            with tools.chdir("FreeImage"): 
+            env_build_vars['DESTDIR'] = self._build_subfolder
+            env_build_vars["INCDIR"] = os.path.join(self._build_subfolder, "include")
+            env_build_vars["INSTALLDIR"] = os.path.join(self._build_subfolder, "lib")
+            with tools.chdir(self._source_subfolder): 
                 autotools.make(target="-f Makefile.fip", vars=env_build_vars)
         
     def package(self):
@@ -44,7 +46,7 @@ class FreeImageConan(ConanFile):
             self.copy("*.h", dst="include", src=src, keep_path=False)
         else:
             with tools.chdir("FreeImage"): 
-                src = ("./Dist")
+                src = (os.path.join(self._build_subfolder, "./Dist"))
                 self.copy("*.a", dst="lib", src=src, keep_path=False)
                 self.copy("*.so", dst="bin", src=src, keep_path=False)
                 self.copy("*.h", dst="include", src=src, keep_path=False)
