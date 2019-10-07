@@ -59,7 +59,7 @@ class FreeImageConan(ConanFile):
                 self.copy("*.h", dst=os.path.join(self.package_folder, "include"), src=self._dist_subfolder, keep_path=False)
                 if self.settings.os_build == "Macos":
                     # Should be symlinked to the .a file
-                    self.copy("libfreeimage.a", dst=os.path.join(self.package_folder, "bin"), src=self._dist_subfolder, keep_path=False)
+                    self.copy("*.a", dst=os.path.join(self.package_folder, "lib"), src=self._dist_subfolder, keep_path=False)
                     os.rename(os.path.join(self.package_folder, "bin\libfreeimage.a"), os.path.join(self.package_folder, "bin\libfreeimage.dylib"))
 
     def package_info(self):
