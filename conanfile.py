@@ -35,8 +35,7 @@ class FreeImageConan(ConanFile):
                 # FIP : Makefile.fip is for FreeImagePlus, the C++ FreeImage wrapper
                 # make 
                 if self.settings.os_build == "Macos":
-                    autotools.defines.append("DISABLE_PERF_MEASUREMENT=1")
-                    autotools.configure()
+                    autotools.defines.append("DISABLE_PERF_MEASUREMENT")
                     autotools.make(target="-f Makefile.osx", vars=env_build_vars)
                 else:
                     autotools.make(target="-f Makefile.gnu", vars=env_build_vars)
