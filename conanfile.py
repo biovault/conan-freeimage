@@ -36,6 +36,7 @@ class FreeImageConan(ConanFile):
                 # make 
                 if self.settings.os_build == "Macos":
                     autotools.defines.append("DISABLE_PERF_MEASUREMENT=1")
+                    autotools.configure()
                     autotools.make(target="-f Makefile.osx", vars=env_build_vars)
                 else:
                     autotools.make(target="-f Makefile.gnu", vars=env_build_vars)
