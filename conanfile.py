@@ -11,7 +11,7 @@ class FreeImageConan(ConanFile):
     description = "FreeImage for Windows, pre-built binaries are supplied"
     license = "FIPL"
     settings = "os_build", "compiler", "build_type", "arch_build"
-    url = "https://github.com/bldrvnlw/conan-freeimage"
+    url = "https://github.com/biovault/conan-freeimage"
     _source_subfolder = "FreeImage"
     _build_subfolder = "build_subfolder"
     _dist_subfolder = None
