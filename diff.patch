@@ -1,0 +1,107 @@
+diff -Naur freeimagesrc/FreeImage/Source/LibJXR/image/decode/segdec.c source/FreeImage/Source/LibJXR/image/decode/segdec.c
+--- freeimagesrc/FreeImage/Source/LibJXR/image/decode/segdec.c	2013-12-06 23:04:54.000000000 +0100
++++ source/FreeImage/Source/LibJXR/image/decode/segdec.c	2022-02-24 09:24:11.000000000 +0100
+@@ -1,14 +1,14 @@
+ //*@@@+++@@@@******************************************************************
+ //
+-// Copyright © Microsoft Corp.
++// Copyright ï¿½ Microsoft Corp.
+ // All rights reserved.
+ // 
+ // Redistribution and use in source and binary forms, with or without
+ // modification, are permitted provided that the following conditions are met:
+ // 
+-// • Redistributions of source code must retain the above copyright notice,
++// ï¿½ Redistributions of source code must retain the above copyright notice,
+ //   this list of conditions and the following disclaimer.
+-// • Redistributions in binary form must reproduce the above copyright notice,
++// ï¿½ Redistributions in binary form must reproduce the above copyright notice,
+ //   this list of conditions and the following disclaimer in the documentation
+ //   and/or other materials provided with the distribution.
+ // 
+@@ -26,6 +26,10 @@
+ //
+ //*@@@---@@@@******************************************************************
+ 
++#ifdef __APPLE__
++    #include <libkern/OSByteOrder.h>
++    #define _byteswap_ulong(x) _OSSwapInt32
++#endif
+ #include "strcodec.h"
+ #include "decode.h"
+ 
+diff -Naur freeimagesrc/FreeImage/Source/LibJXR/jxrgluelib/JXRGlueJxr.c source/FreeImage/Source/LibJXR/jxrgluelib/JXRGlueJxr.c
+--- freeimagesrc/FreeImage/Source/LibJXR/jxrgluelib/JXRGlueJxr.c	2013-12-06 23:04:54.000000000 +0100
++++ source/FreeImage/Source/LibJXR/jxrgluelib/JXRGlueJxr.c	2022-02-24 09:24:20.000000000 +0100
+@@ -1,15 +1,15 @@
+ 
+ //*@@@+++@@@@******************************************************************
+ //
+-// Copyright © Microsoft Corp.
++// Copyright ï¿½ Microsoft Corp.
+ // All rights reserved.
+ // 
+ // Redistribution and use in source and binary forms, with or without
+ // modification, are permitted provided that the following conditions are met:
+ // 
+-// • Redistributions of source code must retain the above copyright notice,
++// ï¿½ Redistributions of source code must retain the above copyright notice,
+ //   this list of conditions and the following disclaimer.
+-// • Redistributions in binary form must reproduce the above copyright notice,
++// ï¿½ Redistributions in binary form must reproduce the above copyright notice,
+ //   this list of conditions and the following disclaimer in the documentation
+ //   and/or other materials provided with the distribution.
+ // 
+@@ -26,6 +26,9 @@
+ // POSSIBILITY OF SUCH DAMAGE.
+ //
+ //*@@@---@@@@******************************************************************
++#ifdef __APPLE__
++    #include <wchar.h>
++#endif
+ #include <limits.h>
+ #include <JXRGlue.h>
+ 
+diff -Naur freeimagesrc/FreeImage/Source/ZLib/gzlib.c source/FreeImage/Source/ZLib/gzlib.c
+--- freeimagesrc/FreeImage/Source/ZLib/gzlib.c	2017-01-16 06:29:40.000000000 +0100
++++ source/FreeImage/Source/ZLib/gzlib.c	2022-02-24 09:17:37.000000000 +0100
+@@ -5,6 +5,11 @@
+ 
+ #include "gzguts.h"
+ 
++#ifdef __APPLE__
++    #define _LARGEFILE64_SOURCE     /* See feature_test_macros(7) */
++    #include <sys/types.h>
++    #include <unistd.h>
++#endif
+ #if defined(_WIN32) && !defined(__BORLANDC__) && !defined(__MINGW32__)
+ #  define LSEEK _lseeki64
+ #else
+diff -Naur freeimagesrc/FreeImage/Source/ZLib/gzread.c source/FreeImage/Source/ZLib/gzread.c
+--- freeimagesrc/FreeImage/Source/ZLib/gzread.c	2017-01-01 20:37:10.000000000 +0100
++++ source/FreeImage/Source/ZLib/gzread.c	2022-02-24 09:18:40.000000000 +0100
+@@ -3,6 +3,10 @@
+  * For conditions of distribution and use, see copyright notice in zlib.h
+  */
+ 
++#ifdef __APPLE__
++    #include <sys/types.h>
++    #include <unistd.h>
++#endif
+ #include "gzguts.h"
+ 
+ /* Local functions */
+diff -Naur freeimagesrc/FreeImage/Source/ZLib/gzwrite.c source/FreeImage/Source/ZLib/gzwrite.c
+--- freeimagesrc/FreeImage/Source/ZLib/gzwrite.c	2017-01-16 06:29:40.000000000 +0100
++++ source/FreeImage/Source/ZLib/gzwrite.c	2022-02-24 09:19:26.000000000 +0100
+@@ -3,6 +3,10 @@
+  * For conditions of distribution and use, see copyright notice in zlib.h
+  */
+ 
++#ifdef __APPLE__
++    #include <sys/types.h>
++    #include <unistd.h>
++#endif
+ #include "gzguts.h"
+ 
+ /* Local functions */

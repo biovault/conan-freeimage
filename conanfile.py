@@ -3,6 +3,7 @@ import shutil
 from conans import ConanFile
 from conans import tools
 from conans import AutoToolsBuildEnvironment
+from pathlib import Path
 
 
 class FreeImageConan(ConanFile):
@@ -15,11 +16,13 @@ class FreeImageConan(ConanFile):
     _source_subfolder = "FreeImage"
     _build_subfolder = "build_subfolder"
     _dist_subfolder = None
+    exports = "diff.patch"
     
     def configure(self):
         pass
 
     def source(self): 
+        #pass
         if self.settings.os_build != "Windows":
             tools.get("http://downloads.sourceforge.net/freeimage/FreeImage3180.zip")
             
@@ -28,6 +31,9 @@ class FreeImageConan(ConanFile):
         if self.settings.os_build == "Windows":
             tools.get("http://downloads.sourceforge.net/freeimage/FreeImage3180Win32Win64.zip")
         else:
+            if self.settings.os_build == "Macos":
+                tools.patch(patch_file="diff.patch", strip=1)  # Although the issues are seen at 12 patching on earlier is OK
+
             autotools = AutoToolsBuildEnvironment(self)
             # In order to set environment vars - unused in this recipe
             env_build_vars = autotools.vars
