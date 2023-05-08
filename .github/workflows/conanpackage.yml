@@ -120,7 +120,7 @@ jobs:
 
       - name: Select Xcode for Mac only
         run: |
-          sudo xcode-select -switch /Applications/Xcode_${{matrix.build-xcode-version}}.app
+          sudo xcode-select -switch /Applications/Xcode-${{matrix.build-xcode-version}}.app
 
       - name: Mac self-hosted build
         uses: ./.github/conan_macselfhosted_build
