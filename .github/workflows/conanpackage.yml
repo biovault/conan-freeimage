@@ -4,8 +4,8 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build_ongithub:
-    # disabled for testing
-    if: false  
+    # disable when testing self-hosted
+    if: true  
     name: Build library on ${{ matrix.name}}
     runs-on: ${{ matrix.os }}
     strategy:
