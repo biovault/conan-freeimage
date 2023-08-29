@@ -44,6 +44,9 @@ class FreeImageConan(ConanFile):
                     tools.replace_in_file('Makefile.osx', '-DNO_LCMS', '-DNO_LCMS -DDISABLE_PERF_MEASUREMENT') 
                     autotools.make(target="-f Makefile.osx", vars=env_build_vars)
                 else:
+                    print(f"Original vnv vars are {env_build_vars}")
+                    env_build_vars["MAKEFLAGS"]="j1"
+                    print(f"Single core env vars are {env_build_vars}")
                     autotools.make(target="-f Makefile.gnu", vars=env_build_vars)
                 print("Cur dir: ", os.getcwd(), " Dist subdir: ", os.listdir("./Dist"))
                 self._dist_subfolder = os.path.join(os.getcwd(), "Dist");
