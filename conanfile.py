@@ -48,7 +48,7 @@ class FreeImageConan(ConanFile):
                     env_build_vars["CC"] = f"gcc-{ self.settings.compiler.version }"
                     env_build_vars["CXX"] = f"g++-{ self.settings.compiler.version }"
                     # 3.18 free image is not compatible with c++17
-                    env_build_vars["CXXFLAGS"] = " ".join(os.getenv('CXXFLAGS', ''), '-std=c++14')  
+                    env_build_vars["CXXFLAGS"] = " ".join([os.getenv('CXXFLAGS', ''), '-std=c++14'])  
                     print(f"Single core env vars are {env_build_vars}", flush=True)
                     autotools.make(target="-f Makefile.gnu", vars=env_build_vars, args=["-j1"])
                 print("Cur dir: ", os.getcwd(), " Dist subdir: ", os.listdir("./Dist"))
