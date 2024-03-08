@@ -5,6 +5,7 @@ from conans import tools
 from conans import AutoToolsBuildEnvironment
 from pathlib import Path
 
+required_conan_version = ">=1.61.0"
 
 class FreeImageConan(ConanFile):
     name = "freeimage"
@@ -25,8 +26,7 @@ class FreeImageConan(ConanFile):
         #pass
         if self.settings.os_build != "Windows":
             tools.get("http://downloads.sourceforge.net/freeimage/FreeImage3180.zip")
-            
-            
+
     def build(self):
         if self.settings.os_build == "Windows":
             tools.get("http://downloads.sourceforge.net/freeimage/FreeImage3180Win32Win64.zip")
@@ -47,6 +47,8 @@ class FreeImageConan(ConanFile):
                     print(f"Original env vars are {env_build_vars}", flush=True)
                     env_build_vars["CC"] = f"gcc-{ self.settings.compiler.version }"
                     env_build_vars["CXX"] = f"g++-{ self.settings.compiler.version }"
+                    # 3.18 free image is not compatible with c++17
+                    env_build_vars["CXXFLAGS"] = " ".join(os.getenv('CXXFLAGS', ''), '-std=c++14')  
                     print(f"Single core env vars are {env_build_vars}", flush=True)
                     autotools.make(target="-f Makefile.gnu", vars=env_build_vars, args=["-j1"])
                 print("Cur dir: ", os.getcwd(), " Dist subdir: ", os.listdir("./Dist"))
